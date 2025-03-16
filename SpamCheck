@@ -1,0 +1,50 @@
+import React, { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+
+const LinkSpamChecker = () => {
+  const [inputLink, setInputLink] = useState('');
+  const [result, setResult] = useState('');
+
+  const checkSpam = async () => {
+    if (!inputLink.trim()) {
+      setResult('Please enter a valid link.');
+      return;
+    }
+
+    try {
+      // Placeholder spam-checking logic; replace with an actual API or algorithm
+      const suspiciousKeywords = ['spam', 'clickbait', 'malware', 'phishing'];
+      const isSpam = suspiciousKeywords.some(keyword =>
+        inputLink.toLowerCase().includes(keyword)
+      );
+
+      setResult(isSpam ? 'The link is likely spam.' : 'The link appears safe.');
+    } catch (error) {
+      setResult('An error occurred while checking the link.');
+    }
+  };
+
+  return (
+    <div className="p-4 max-w-md mx-auto">
+      <h1 className="text-xl font-bold mb-4">Link Spam Checker</h1>
+      <div className="mb-4 flex">
+        <Input
+          value={inputLink}
+          onChange={e => setInputLink(e.target.value)}
+          placeholder="Enter a link"
+          className="mr-2"
+        />
+        <Button onClick={checkSpam}>Check</Button>
+      </div>
+      <Card>
+        <CardContent>
+          <p className="text-gray-700">{result || 'Enter a link to check if it is spam.'}</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default LinkSpamChecker;
